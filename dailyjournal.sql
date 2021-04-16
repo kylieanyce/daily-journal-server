@@ -27,4 +27,4 @@ INSERT INTO `Entry` VALUES (null, "1/31/2021", "CSS", "CSS is the most fun! I lo
 INSERT INTO `Entry` VALUES (null, "2/6/2021", "JavaScript", "JavaScript is hard to understand, but I think I'm getting it.", 3);
 INSERT INTO `Entry` VALUES (null, "3/10/2021", "React", "We worked with React today and it was hard. It is awesome, too.", 6);
 
-SELECT * FROM Entry
+SELECT * FROM Mood
