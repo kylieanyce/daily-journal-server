@@ -2,7 +2,7 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from entries import get_all_entries
-from entries import get_single_entry
+# from entries import get_single_entry
 
 
 
@@ -72,35 +72,35 @@ class HandleRequests(BaseHTTPRequestHandler):
         self.wfile.write(response.encode())
 
 
-    def do_POST(self):
-        self._set_headers(201)
-        content_len = int(self.headers.get('content-length', 0))
-        post_body = self.rfile.read(content_len)
-        post_body = json.loads(post_body)
-        (resource, id) = self.parse_url(self.path)
+    # def do_POST(self):
+    #     self._set_headers(201)
+    #     content_len = int(self.headers.get('content-length', 0))
+    #     post_body = self.rfile.read(content_len)
+    #     post_body = json.loads(post_body)
+    #     (resource, id) = self.parse_url(self.path)
 
-        new_entry = None
+    #     new_entry = None
 
-        if resource == "entries":
-            new_entry = create_entry(post_body)
-            self.wfile.write(f"{new_entry}".encode())
+    #     if resource == "entries":
+    #         new_entry = create_entry(post_body)
+    #         self.wfile.write(f"{new_entry}".encode())
 
-    def do_PUT(self):
-        self._set_headers(204)
-        content_len = int(self.headers.get('content-length', 0))
-        post_body = self.rfile.read(content_len)
-        post_body = json.loads(post_body)
-        (resource, id) = self.parse_url(self.path)
-        if resource == "entries":
-            update_entry(id, post_body)
-        self.wfile.write("".encode())
+    # def do_PUT(self):
+    #     self._set_headers(204)
+    #     content_len = int(self.headers.get('content-length', 0))
+    #     post_body = self.rfile.read(content_len)
+    #     post_body = json.loads(post_body)
+    #     (resource, id) = self.parse_url(self.path)
+    #     if resource == "entries":
+    #         update_entry(id, post_body)
+    #     self.wfile.write("".encode())
 
-    def do_DELETE(self):
-        self._set_headers(204)
-        (resource, id) = self.parse_url(self.path)
-        if resource == "entries":
-            delete_entry(id)
-        self.wfile.write("".encode())
+    # def do_DELETE(self):
+    #     self._set_headers(204)
+    #     (resource, id) = self.parse_url(self.path)
+    #     if resource == "entries":
+    #         delete_entry(id)
+    #     self.wfile.write("".encode())
 
 
 def main():
