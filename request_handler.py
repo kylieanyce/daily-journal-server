@@ -3,6 +3,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from entries import get_all_entries
 from entries import get_single_entry
+from entries import delete_entry
 
 
 
@@ -95,12 +96,12 @@ class HandleRequests(BaseHTTPRequestHandler):
     #         update_entry(id, post_body)
     #     self.wfile.write("".encode())
 
-    # def do_DELETE(self):
-    #     self._set_headers(204)
-    #     (resource, id) = self.parse_url(self.path)
-    #     if resource == "entries":
-    #         delete_entry(id)
-    #     self.wfile.write("".encode())
+    def do_DELETE(self):
+        self._set_headers(204)
+        (resource, id) = self.parse_url(self.path)
+        if resource == "entries":
+            delete_entry(id)
+        self.wfile.write("".encode())
 
 
 def main():
