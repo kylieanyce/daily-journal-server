@@ -2,7 +2,7 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from entries import get_all_entries
-# from entries import get_single_entry
+from entries import get_single_entry
 
 
 
