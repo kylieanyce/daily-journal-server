@@ -4,4 +4,5 @@ class Entry():
         self.name = date
         self.breed = concept
         self.status = text
-        self.location_id = mood_id
+        self.mood_id = mood_id
+        self.mood = None

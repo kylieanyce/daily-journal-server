@@ -34,3 +34,5 @@ OR e.date LIKE '%'
 OR e.concept LIKE '%'
 OR e.text LIKE '%'
 OR e.mood_id LIKE '%'
+
+SELECT * FROM Entry
