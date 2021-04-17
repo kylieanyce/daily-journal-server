@@ -49,6 +49,34 @@ def get_single_entry(id):
         return json.dumps(entry.__dict__)
 
 
+def get_entry_by_search(search_term):
+    with sqlite3.connect("./dailyjournal.db") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+        # Use a ? parameter to inject a variable's value
+        # into the SQL statement.
+        db_cursor.execute("""
+        SELECT
+            e.id,
+            e.date,
+            e.concept,
+            e.text,
+            e.mood_id
+        FROM Entry e
+        WHERE e.id LIKE '%'
+        OR e.date LIKE '%'
+        OR e.concept LIKE '%'
+        OR e.text LIKE '%'
+        OR e.mood_id LIKE '%'
+        """, (search_term, ))
+        # Load the single result into memory
+        data = db_cursor.fetchone()
+        # Create an animal instance from the current row
+        entry = Entry(data['id'], data['date'], data['concept'],
+                        data['text'], data['mood_id'])
+        return json.dumps(entry.__dict__)
+
+
 def delete_entry(id):
     with sqlite3.connect("./dailyjournal.db") as conn:
         db_cursor = conn.cursor()
