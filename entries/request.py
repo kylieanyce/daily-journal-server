@@ -15,7 +15,7 @@ def get_all_entries():
             e.concept,
             e.text,
             e.mood_id,
-            m.label mood_type
+            m.label
         FROM Entry e
         JOIN Mood m
             ON m.id = e.mood_id
@@ -70,12 +70,8 @@ def get_entry_by_search(search_term):
             e.text,
             e.mood_id
         FROM Entry e
-        WHERE e.id LIKE '%'
-        OR e.date LIKE '%'
-        OR e.concept LIKE '%'
-        OR e.text LIKE '%'
-        OR e.mood_id LIKE '%'
-        """, (search_term, ))
+        WHERE e.text LIKE ?
+        """, (f'%{search_term}%', ))
         # Load the single result into memory
         data = db_cursor.fetchone()
         # Create an animal instance from the current row

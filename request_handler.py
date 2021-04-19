@@ -1,8 +1,10 @@
+from entries.request import get_entry_by_search
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from entries import get_all_entries
 from entries import get_single_entry
+from entries import get_entry_by_search
 from entries import delete_entry
 
 
@@ -53,23 +55,20 @@ class HandleRequests(BaseHTTPRequestHandler):
         if len(parsed) == 2:
             ( resource, id ) = parsed
             if resource == "entries":
-                if id is not None:
+                if id is type(int):
                     response = f"{get_single_entry(id)}"
                 else:
                     response = f"{get_all_entries()}"
-        # elif len(parsed) == 3:
-        #     ( resource, key, value ) = parsed
-        #     # Is the resource `customers` and was there a
-        #     # query parameter that specified the customer
-        #     # email as a filtering value?
-        #     if key == "email" and resource == "customers":
-        #         response = get_customers_by_email(value)
-        #     elif key == "location_id" and resource == "animals":
-        #         response = get_animals_by_location(value)
-        #     elif key == "location_id" and resource == "employees":
-        #         response = get_employees_by_location(value)
-        #     elif key == "status" and resource == "animals":
-        #         response = get_animals_by_status(value)
+        elif len(parsed) == 3:
+            ( resource, key, value ) = parsed
+            if key == "q" and resource == "entries":
+                response = get_entry_by_search(value)
+            # elif key == "location_id" and resource == "animals":
+            #     response = get_animals_by_location(value)
+            # elif key == "location_id" and resource == "employees":
+            #     response = get_employees_by_location(value)
+            # elif key == "status" and resource == "animals":
+            #     response = get_animals_by_status(value)
         self.wfile.write(response.encode())
 
 
