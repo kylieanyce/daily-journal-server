@@ -5,6 +5,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from entries import get_all_entries
 from entries import get_single_entry
 from entries import get_entry_by_search
+from entries import create_entry
+from entries import update_entry
 from entries import delete_entry
 
 
@@ -84,16 +86,17 @@ class HandleRequests(BaseHTTPRequestHandler):
             new_entry = create_entry(post_body)
             self.wfile.write(f"{new_entry}".encode())
 
-
-    # def do_PUT(self):
-    #     self._set_headers(204)
-    #     content_len = int(self.headers.get('content-length', 0))
-    #     post_body = self.rfile.read(content_len)
-    #     post_body = json.loads(post_body)
-    #     (resource, id) = self.parse_url(self.path)
-    #     if resource == "entries":
-    #         update_entry(id, post_body)
-    #     self.wfile.write("".encode())
+    def do_PUT(self):
+        self._set_headers(204)
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+        (resource, id) = self.parse_url(self.path)
+        success = False
+        
+        if resource == "entries":
+            success = update_entry(id, post_body)
+        self.wfile.write("".encode())
 
     def do_DELETE(self):
         self._set_headers(204)

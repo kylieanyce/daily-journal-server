@@ -86,6 +86,7 @@ def get_entry_by_search(search_term):
             entries.append(entry.__dict__)
     return json.dumps(entries)
 
+
 def create_entry(new_entry):
     with sqlite3.connect("./dailyjournal.db") as conn:
         db_cursor = conn.cursor()
@@ -102,6 +103,28 @@ def create_entry(new_entry):
         id = db_cursor.lastrowid
         new_entry['id'] = id
     return json.dumps(new_entry)
+
+
+def update_entry(id, new_entry):
+    with sqlite3.connect("./dailyjournal.db") as conn:
+        db_cursor = conn.cursor()
+        db_cursor.execute("""
+        UPDATE Entry
+            SET
+                date = ?,
+                concept = ?,
+                text = ?,
+                mood_id = ?
+        WHERE id = ?
+        """, (new_entry['date'], 
+            new_entry['concept'], 
+            new_entry['text'], 
+            new_entry['mood_id'], id, ))
+        rows_affected = db_cursor.rowcount
+    if rows_affected == 0:
+        return False
+    else:
+        return True
 
 
 def delete_entry(id):
