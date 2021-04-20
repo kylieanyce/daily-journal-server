@@ -1,4 +1,4 @@
-from entries.request import get_entry_by_search
+from entries.request import create_entry, get_entry_by_search
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -71,19 +71,19 @@ class HandleRequests(BaseHTTPRequestHandler):
             #     response = get_animals_by_status(value)
         self.wfile.write(response.encode())
 
+    def do_POST(self):
+        self._set_headers(201)
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+        (resource, id) = self.parse_url(self.path)
 
-    # def do_POST(self):
-    #     self._set_headers(201)
-    #     content_len = int(self.headers.get('content-length', 0))
-    #     post_body = self.rfile.read(content_len)
-    #     post_body = json.loads(post_body)
-    #     (resource, id) = self.parse_url(self.path)
+        new_entry = None
 
-    #     new_entry = None
+        if resource == "entries":
+            new_entry = create_entry(post_body)
+            self.wfile.write(f"{new_entry}".encode())
 
-    #     if resource == "entries":
-    #         new_entry = create_entry(post_body)
-    #         self.wfile.write(f"{new_entry}".encode())
 
     # def do_PUT(self):
     #     self._set_headers(204)
