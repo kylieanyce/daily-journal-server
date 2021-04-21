@@ -95,13 +95,21 @@ def create_entry(new_entry):
         INSERT INTO Entry
             ( date, concept, text, mood_id )
         VALUES
-            ( ?, ?, ?, ? );
+            ( ?, ?, ?, ?, ? );
         """, (new_entry['date'], 
             new_entry['concept'], 
             new_entry['text'], 
             new_entry['mood_id']))
+
         id = db_cursor.lastrowid
         new_entry['id'] = id
+
+        entry = []
+        dataset = db_cursor.fetchall()
+        for tag in dataset:
+            
+
+
     return json.dumps(new_entry)
 
 
